@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<config>
+	<toolinfo id = 'adex'>
+
+		<workspace  name = 'Workspace for IFDevEnv' mofWorkspaceClass = 'adex.mof.impl.MOFWorkspaceImpl'>
+			<mddWorkspace  mddWorkspaceFactory = 'mdd.model.factory.SysFactory' pluginId = 'com.tcs.mdd'>
+			</mddWorkspace>
+			<databaseInfo 
+				portNo = '5434'
+				password = 'Y1zLPar+iwQZqWZsfc5AxYYYuh7W5AP+KkZhugQyp8bBxN6YPzlmAg=='
+				serviceName = 'ModelRepo_Product'
+				userName = 'postgres'
+				machineNo = 'localhost'
+				databaseType = 'postgresql'>
+			</databaseInfo>
+		</workspace>
+
+		<workspace  name = 'Workspace For VersionStore' mofWorkspaceClass = 'adex.mof.impl.MOFWorkspaceImpl'>
+			  <mddWorkspace  mddWorkspaceFactory = 'mdd.model.factory.SysFactory' pluginId = 'com.tcs.mdd'>
+			</mddWorkspace>
+		 <databaseInfo 
+				portNo = '5434'
+				password = 'Y1zLPar+iwQZqWZsfc5AxYYYuh7W5AP+KkZhugQyp8bBxN6YPzlmAg=='
+				serviceName = 'VersionRepo_Product'
+				userName = 'postgres'
+				machineNo = 'localhost'
+				databaseType = 'postgresql'>
+			</databaseInfo>
+
+    </workspace>
+
+		<versionStore  versionStoreClass = 'adex.versioning.versionstore.impl.VersionStoreImpl'>
+			<databaseInfo 
+				portNo = '5434'
+				password = 'Y1zLPar+iwQZqWZsfc5AxYYYuh7W5AP+KkZhugQyp8bBxN6YPzlmAg=='
+				serviceName = 'VersionRepo_Product'
+				userName = 'postgres'
+				machineNo = 'localhost'
+				databaseType = 'postgresql'>
+			</databaseInfo>
+			<classExtensions >
+				<class  id = 'xyz'>
+					<extent  name = 'xyz'></extent>
+					<factory  name = 'xyz'></factory>
+					<object  name = 'xyz'></object>
+				</class>
+				<class ></class>
+			</classExtensions>
+		</versionStore>
+
+	</toolinfo>
+</config>
