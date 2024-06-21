@@ -20,7 +20,7 @@ const passwordChangeRoute = require('./routes/passwordRoutes');
 const invoiceRoute = require('./routes/invoiceRoutes');
 const profileRoute = require('./routes/profileRoutes');
 const bcrypt = require('bcryptjs');
-const path =require('path')
+const path = require('path');
 const { get } = require('https');
 const { stat } = require('fs');
 const { error } = require('console');
@@ -33,9 +33,41 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.static(`${__dirname}/../src`));
 app.use(express.static('uploads'));
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+const swaggerOptions = {
+  swaggerOptions: {
+    authAction: {
+      bearerAuth: {
+        name: 'bearerAuth',
+        schema: {
+          type: 'http',
+          in: 'header',
+          name: 'Authorization',
+          description: '',
+        },
+        value: 'Bearer <JWT>',
+      },
+    },
+  },
+};
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument, swaggerOptions)
+);
 app.use((req, res, next) => {
-  console.log('Welcom to backend!');
+  console.log("Welcom to Sridhar's REST API WebApp S-cart!");
+  next();
+});
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization,Scart,Lang,Website,AuthCode,UserId,App-Mode'
+  );
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, POST, PATCH, PUT, DELETE, OPTIONS'
+  );
   next();
 });
 const uploadDir = path.join(__dirname, 'uploads');

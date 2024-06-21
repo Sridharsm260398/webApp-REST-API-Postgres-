@@ -17,9 +17,32 @@ const pool = require('../database/connection');
 
 exports.getallProducts = async (req, res) => {
   try {
-    const result = await pool.query('Select * from products');
-
+    const currentPage = +req.query.page || 1;
+    const pageSize = +req.query.pageSize || 10;
+    const offset = (currentPage-1)* pageSize;
+    const filter = req.query.filter ;
+    const query = `
+    SELECT * FROM products
+    WHERE (title ILIKE $1 or category ILIKE $2)
+    ORDER BY id
+    LIMIT $3 OFFSET $4
+  `;
+  const countQuery = `
+    SELECT COUNT(*) AS count  FROM products
+    WHERE(title ILIKE $1 or category ILIKE $2) 
+  `;
+  const values = [`%${filter}%`,`${filter}%`, pageSize, offset];
+  const countValues = [`%${filter}%`,`${filter}%`];
+    // const result = await pool.query('Select * from products where title ILIKE $1 ORDER BY id LIMIT $2 OFFSET $3 ',[pageSize,offset]);
+    // const { rows } = await pool.query('SELECT COUNT(*) AS count FROM products')
+  
+    const result = await pool.query(query, values);
+    const { rows } = await pool.query(countQuery, countValues);
+    console.log(rows[0].count)
     res.status(200).json({
+      currentPage,
+      pageSize,
+      totalElements:rows[0].count,
       status: 'success',
       message: 'Products fetched successfull!',
       data: result.rows,

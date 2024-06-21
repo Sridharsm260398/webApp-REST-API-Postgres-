@@ -15,14 +15,14 @@ exports.passwordChange = async (req, res) => {
         .status(400)
         .json({
           error:
-            'Old password is incorrect. Please enter the correct password and try again.',
+            'Current password is incorrect. Please enter the correct password and try again.',
         });
     }
     const isPasswordMatched = await bcrypt.compare(password, user.password);
     if (isPasswordMatched) {
       return res
         .status(400)
-        .json({ error: "New password can't be the same as the old password." });
+        .json({ error: "New password can't be the same as the current password." });
     }
     if (!isPasswordMatched) {
      const hashPwd = await bcrypt.hash(password, 12);
